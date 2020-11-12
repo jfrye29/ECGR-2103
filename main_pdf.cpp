@@ -15,7 +15,7 @@ using namespace std;
 
 // Forward declaration of the game functions
 void gameLoop();
-int playerTurn(int player);
+int playerTurn();
 
 int main(){
     
@@ -59,7 +59,36 @@ int main(){
 //   Check the scores- if one is >= 100 then we output the winner
 //   If there is no winner, switch players and start again
 void gameLoop() {
-
+    int currentPlayer = 1;
+    int player1Score = 0;
+    int player2Score = 0;
+    
+    while (player1Score < 100 && player2Score < 100) {
+        cout << endl << "=================================" << endl;
+        cout << "Player " << currentPlayer << "'s turn." << endl;
+        
+        cout << "Current score: ";
+        if (currentPlayer == 1) cout << player1Score;
+        else cout << player2Score;
+        cout << endl << endl;
+    
+        int score = playerTurn();
+        
+        if (currentPlayer == 1) {
+            player1Score += score;
+            currentPlayer = 2;
+        } else {
+            player2Score += score;
+            currentPlayer = 1;
+        }
+    }
+    
+    cout << endl;
+    if (player1Score >= 100) {
+        cout << "Player 1 won!!!!" << endl;
+    } else {
+        cout << "Player 2 won!!!!" << endl;
+    }
 }
 
 // We only need one function- it will generate a new random number
@@ -78,7 +107,27 @@ int randomDice(){
 //   Ask if they want to hold or roll again.
 //      If hold, return the score
 //      If roll again, start the loop over
-int playerTurn(int player) {
-    return 0;
+int playerTurn() {
+    char choice = 0;
+    int dice = 0;
+    int score = 0;
+    
+    do {
+        dice = randomDice();
+        cout << "Dice: " << dice << endl;
+        
+        if (dice == 1) {
+            score = 0;
+            
+            cout << "Score: 0. Your turn is over." << endl;
+        } else {
+            score += dice;
+            
+            cout << "Score: " << score << ". Hold? (y,n)" << endl;
+            cin >> choice;
+        }
+    } while (dice != 1 && !(choice == 'y' || choice == 'y'));
+    
+    return score;
 }
 

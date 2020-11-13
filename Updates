@@ -1,6 +1,0 @@
-
-11/12/2020
-Patrick- Added the overall structure of the algorithms to the main file; actually did a first implementation in "main_pdf.cpp".
-
-The "main_ai.cpp" is based on "main_pdf"; Pretty much it subsitutes player 2 for a computer player. AI is not my speciality, so the computer player is kind of dumb, but it did get rather high a few times. Up to you all, but if you want to use this as one of our creativity things we can (make sure you have a high level understanding if we do). I'm perfectly fine if not, I was just waiting for something else to build so I was just messing around...
-

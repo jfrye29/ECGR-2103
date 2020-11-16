@@ -15,7 +15,7 @@ Date: 12/01/20
 using namespace std;
 
 // Set this to set the maximum (winning) score
-#define WIN_SCORE 20
+#define WIN_SCORE 100
 
 // Forward declaration of the game functions
 void gameLoop(bool computerPlayer);

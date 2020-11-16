@@ -1,0 +1,57 @@
+// We will need to take this and put it in its on function to be able to loop back once the game is finished. 
+
+#include <stdio.h>
+#include <iostream>
+using namespace std;
+int main()
+{
+    int menuOption;
+    //Game Menu
+    cout << "**************************************************************************************" << endl;
+    cout << "\033[01;44;41m" << "                       Welcome to Pig Dice!                       " << "\x1B[0m" << endl;
+    cout << endl;
+    cout << "                       Game Menu" <<endl;
+    cout << "1 - Instructions" << endl;
+    cout << "2 - Pig Dice Game (2 Player)" << endl;
+    cout << "3 - Pig Dice Game (1 Player)" << endl;
+    cout << "4 - Exit" << endl;
+    
+    //User Input for Menu Option
+    cout <<  "Choose Menu Option: ";
+    cin >> menuOption;
+    cout << endl; 
+    
+    //Switch Statement to Process User Input Choice
+    switch(menuOption) {
+        case 1:
+            //Output Instructions
+            cout<<" Instructions:"<<endl;
+            cout<<" The rules are simple: Two players race to reach 100 points. Each turn,"<<endl;
+            cout<<" a player repeatedly rolls a die until either a 1 is rolled or the"<<endl;
+            cout<<" player holds and scores the sum of the rolls (i.e. the turn total). At "<<endl;
+            cout<<" any time during a player's turn, the player is faced with two decisions:"<<endl;
+            cout<<""<<endl;
+            cout<<" roll- If the player rolls a "<<endl;
+            cout<<"\t1: the player scores nothing and it becomes the opponent's turn."<<endl;
+            cout<<"\t2 - 6: the number is added to the player's turn total and the player's turn continues."<<endl;
+            cout<<""<<endl;
+            cout<<" hold- The turn total is added to the player's score and it "<<endl;
+            cout<<" becomes the opponent's turn."<<endl;
+            break;
+            
+        case 2:
+        // Game Loop for 2 Player Game
+            break;
+        
+        case 3:
+        // Game Loop for (AI) 1 Player Game
+        break;
+            
+        case 4:
+            //Exit
+            return 0;
+    }
+    
+
+    return 0;
+}

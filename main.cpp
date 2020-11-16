@@ -11,43 +11,83 @@ Date: 12/01/20
 #include <cstdlib>
 #include <ctime>  
 #include <cmath>
+#include <vector>
 using namespace std;
 
-// Forward declaration of the game functions
-void gameLoop();
-int playerTurn(int player);
+// Set this to set the maximum (winning) score
+#define WIN_SCORE 20
 
-int main(){
-    
+// Forward declaration of the game functions
+void gameLoop(bool computerPlayer);
+int playerTurn();
+int computerPlayerTurn();
+bool displayMenu();
+
+int main() {
     srand(time(0));
-    //Initialize Variables
-    char instructionsNeeded; 
     
-    // Welcome the user
-    cout << "\033[01;44;41m" << "Welcome to Pig Dice!" << "\x1B[0m" << endl;
+    bool computerPlayer = displayMenu();
+    gameLoop(computerPlayer);
     
-    //Ask User If they Need Instructions
-    cout << "Would you like to see the instructions for the Pig Dice game? (y/n)";
-    cin >>instructionsNeeded;
+    return 0;
+}
+
+bool displayMenu() {
+    int menuOption;
+    char backToMenu;
+    bool computerPlayer = false;
     
-    if (instructionsNeeded == 'y') {
-        //Output Instructions
-        cout<<" Instructions:"<<endl;
-        cout<<" The rules are simple: Two players race to reach 100 points. Each turn,"<<endl;
-        cout<<" a player repeatedly rolls a die until either a 1 is rolled or the"<<endl;
-        cout<<" player holds and scores the sum of the rolls (i.e. the turn total). At "<<endl;
-        cout<<" any time during a player's turn, the player is faced with two decisions:"<<endl;
-        cout<<""<<endl;
-        cout<<" roll- If the player rolls a "<<endl;
-        cout<<"\t1: the player scores nothing and it becomes the opponent's turn."<<endl;
-        cout<<"\t2 - 6: the number is added to the player's turn total and the player's turn continues."<<endl;
-        cout<<""<<endl;
-        cout<<" hold- The turn total is added to the player's score and it "<<endl;
-        cout<<" becomes the opponent's turn."<<endl;
+    //Game Menu
+    cout << "**************************************************************************************" << endl;
+    cout << "\033[01;44;41m" << "                       Welcome to Pig Dice!                       " << "\x1B[0m" << endl;
+    cout << endl;
+    cout << "                       Game Menu" <<endl;
+    cout << "1 - Instructions" << endl;
+    cout << "2 - Pig Dice Game (2 Player)" << endl;
+    cout << "3 - Pig Dice Game (1 Player)" << endl;
+    cout << "4 - Exit" << endl;
+    
+    cout <<  "Choose Menu Option: ";
+    cin >> menuOption;
+    cout << endl; 
+    switch(menuOption) {
+        case 1: {
+            cout<<" Instructions:"<<endl;
+            cout<<" The rules are simple: Two players race to reach 100 points. Each turn,"<<endl;
+            cout<<" a player repeatedly rolls a die until either a 1 is rolled or the"<<endl;
+            cout<<" player holds and scores the sum of the rolls (i.e. the turn total). At "<<endl;
+            cout<<" any time during a player's turn, the player is faced with two decisions:"<<endl;
+            cout<<""<<endl;
+            cout<<" roll- If the player rolls a "<<endl;
+            cout<<"\t1: the player scores nothing and it becomes the opponent's turn."<<endl;
+            cout<<"\t2 - 6: the number is added to the player's turn total and the player's turn continues."<<endl;
+            cout<<""<<endl;
+            cout<<" hold- The turn total is added to the player's score and it "<<endl;
+            cout<<" becomes the opponent's turn."<<endl;
+            cout << endl;
+            cout << "Would you like to return to the main menu? (y/n) ";
+            cin >> backToMenu;
+            if(backToMenu == 'y' ){
+                return displayMenu();   
+            } else{
+                cout << "BYE!!!" << endl;
+                exit(0);
+            }
+        }
+            
+        case 2:
+            computerPlayer = false;
+            break;
+        
+        case 3:
+            computerPlayer = true;
+            break;
+            
+        case 4:
+            exit(0);
     }
     
-    gameLoop();
-    return 0;
+    return computerPlayer;
 }
 
 // The main game loop
@@ -58,8 +98,39 @@ int main(){
 //   When playerTurn returns, the score is added to the player's current score
 //   Check the scores- if one is >= 100 then we output the winner
 //   If there is no winner, switch players and start again
-void gameLoop() {
-
+void gameLoop(bool computerPlayer) {
+    int currentPlayer = 1;
+    int player1Score = 0;
+    int player2Score = 0;
+    
+    while (player1Score < WIN_SCORE && player2Score < WIN_SCORE) {
+        cout << endl << "=================================" << endl;
+        cout << "Player " << currentPlayer << "'s turn." << endl;
+        
+        cout << "Current score: ";
+        if (currentPlayer == 1) cout << player1Score;
+        else cout << player2Score;
+        cout << endl << endl;
+        
+        if (currentPlayer == 1) {
+            player1Score += playerTurn();
+            currentPlayer = 2;
+        } else {
+            if (computerPlayer) {
+                player2Score += computerPlayerTurn();
+            } else {
+                player2Score += playerTurn();
+            }
+            currentPlayer = 1;
+        }
+    }
+    
+    cout << endl;
+    if (player1Score >= WIN_SCORE) {
+        cout << "Player 1 won!!!!" << endl;
+    } else {
+        cout << "Player 2 won!!!!" << endl;
+    }
 }
 
 // We only need one function- it will generate a new random number
@@ -78,7 +149,95 @@ int randomDice(){
 //   Ask if they want to hold or roll again.
 //      If hold, return the score
 //      If roll again, start the loop over
-int playerTurn(int player) {
-    return 0;
+int playerTurn() {
+    char choice = 0;
+    int dice = 0;
+    int score = 0;
+    
+    do {
+        dice = randomDice();
+        cout << "Dice: " << dice << endl;
+        
+        if (dice == 1) {
+            score = 0;
+            
+            cout << "Score: 0. Your turn is over." << endl;
+        } else {
+            score += dice;
+            
+            cout << "Score: " << score << ". Hold? (y,n)" << endl;
+            cin >> choice;
+        }
+    } while (dice != 1 && !(choice == 'y' || choice == 'y'));
+    
+    return score;
+}
+
+// Logic for the computer player
+// This is the idea behind the computer player:
+//
+// So we have a vector that holds all the scores either when the computer decided to hold,
+// or just before their score was zeroed after rolling 1.
+//
+// If the computer has no scores, we hold if the score is greater than 15 (because you will very likely roll
+// a 1 sooner or later).
+//
+// Otherwise, we just average all the scores. Then we check the difference between the average score and the
+// current score (taking the absolute value so we don't end up with a negative number). This value is our
+// margin. If the margin is greater than a certain threshold, then we continue. Otherwise, we hold.
+
+vector<int> lastScores;
+
+bool shouldIHold(int current) {
+    if (lastScores.size() == 0) {
+        if (current >= 15) {
+            return true;
+        }
+        return false;
+    }
+    
+    int size = lastScores.size();
+    int average = 0;
+    
+    for (int score : lastScores) {
+        average += score;   
+    }
+    
+    average = average / size;
+    int margin = abs(average-current);
+    
+    if (margin > 5) {
+        return false;
+    }
+    return true;
+}
+
+int computerPlayerTurn() {
+    int dice = 0;
+    int score = 0;
+    char choice = 0;
+    
+    do {
+        dice = randomDice();
+        cout << "Dice: " << dice << endl;
+        
+        if (dice == 1) {
+            lastScores.push_back(score);
+            
+            cout << "Score: 0. Computer's turn is over." << endl;
+            return 0;
+        } else {
+            score += dice;
+            
+            if (!shouldIHold(score)) {
+                choice = 'y';
+            }
+        }
+    } while (dice != 1 && !(choice == 'y' || choice == 'y'));
+    
+    cout << "Computer holding at: " << score << endl;
+    
+    lastScores.push_back(score);
+    return score;
 }
 

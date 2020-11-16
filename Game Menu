@@ -6,6 +6,7 @@ using namespace std;
 int main()
 {
     int menuOption;
+    char backToMenu;
     //Game Menu
     cout << "**************************************************************************************" << endl;
     cout << "\033[01;44;41m" << "                       Welcome to Pig Dice!                       " << "\x1B[0m" << endl;
@@ -16,15 +17,11 @@ int main()
     cout << "3 - Pig Dice Game (1 Player)" << endl;
     cout << "4 - Exit" << endl;
     
-    //User Input for Menu Option
     cout <<  "Choose Menu Option: ";
     cin >> menuOption;
     cout << endl; 
-    
-    //Switch Statement to Process User Input Choice
     switch(menuOption) {
         case 1:
-            //Output Instructions
             cout<<" Instructions:"<<endl;
             cout<<" The rules are simple: Two players race to reach 100 points. Each turn,"<<endl;
             cout<<" a player repeatedly rolls a die until either a 1 is rolled or the"<<endl;
@@ -37,21 +34,30 @@ int main()
             cout<<""<<endl;
             cout<<" hold- The turn total is added to the player's score and it "<<endl;
             cout<<" becomes the opponent's turn."<<endl;
+            cout << endl;
+            cout << "Would you like to return to the main menu? (y/n)"
+            cin >> backToMenu; 
+            if(backToMenu == 'y' ){
+                
+            }
+            else{
+                return(0);
+            }
             break;
             
         case 2:
-        // Game Loop for 2 Player Game
+        // code block
             break;
         
         case 3:
-        // Game Loop for (AI) 1 Player Game
+        // code block
         break;
             
         case 4:
-            //Exit
             return 0;
     }
     
 
     return 0;
 }
+

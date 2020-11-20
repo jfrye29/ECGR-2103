@@ -20,7 +20,7 @@ enum Game {
 };
 
 // Set this to set the maximum (winning) score
-#define WIN_SCORE 20
+#define WIN_SCORE 100
 
 // Forward declaration of the game functions
 void displayMenu();
@@ -36,6 +36,9 @@ int computerPlayerTurn_2dice();
 int playerTurn_big_dice();
 int computerPlayerTurn_big_dice();
 
+int playerTurn_hog();
+int computerPlayerTurn_hog();
+
 int main() {
     srand(time(0));
     
@@ -50,7 +53,7 @@ void displayMenu() {
     bool computerPlayer = false;
     
     //Game Menu
-    cout << "\033[2J;\033[H";
+    cout << "\033[2J\033[H";
     cout << "**************************************************************************************" << endl;
     cout << "\033[01;44;41m" << "                       Welcome to Pig Dice!                       " << "\x1B[0m" << endl;
     cout << endl;
@@ -65,6 +68,7 @@ void displayMenu() {
     cout <<  "Choose Menu Option: ";
     cin >> menuOption;
     cout << endl; 
+    cout << "\033[2J\033[H";
     switch(menuOption) {
         case 1: {
             cout<<" Instructions:"<<endl;
@@ -123,11 +127,13 @@ void displayMenu() {
 
 void displayPlayerMenu(Game game) {
     int choice = 0;
+    
     cout << "1 - 1-Player" << endl;
     cout << "2 - 2-Player" << endl;
     cout << "3 - View Instructions" << endl;
     cout <<  "Choose Menu Option: ";
     cin >> choice;
+    cout << "\033[2J\033[H";
     
     switch (choice) {
         case 1:
@@ -167,7 +173,7 @@ void gameLoop(bool computerPlayer, Game game) {
     int player2Score = 0;
     
     while (player1Score < WIN_SCORE && player2Score < WIN_SCORE) {
-        cout << "\033[2J\033[H";
+        //cout << "\033[2J\033[H";
         cout << endl << "=================================" << endl;
         cout << "Player " << currentPlayer << "'s turn." << endl;
         
@@ -180,6 +186,7 @@ void gameLoop(bool computerPlayer, Game game) {
             switch (game) {
                 case Game::PigDice: player1Score += playerTurn_1dice(); break;
                 case Game::BigPig: player1Score += playerTurn_big_dice(); break;
+                case Game::Hog: player1Score += playerTurn_hog(); break;
                 
                 case Game::TwoDice: {
                     int score = playerTurn_2dice();
@@ -188,8 +195,6 @@ void gameLoop(bool computerPlayer, Game game) {
                     else
                         player1Score += score;
                 } break;
-                
-                case Game::Hog: break;
             }
             
             currentPlayer = 2;
@@ -198,6 +203,7 @@ void gameLoop(bool computerPlayer, Game game) {
                 switch (game) {
                     case Game::PigDice: player2Score += computerPlayerTurn_1dice(); break;
                     case Game::BigPig: player2Score += computerPlayerTurn_big_dice(); break;
+                    case Game::Hog: player2Score += computerPlayerTurn_hog(); break;
                     
                     case Game::TwoDice: {
                         int score = computerPlayerTurn_2dice();
@@ -206,13 +212,12 @@ void gameLoop(bool computerPlayer, Game game) {
                         else
                             player2Score += score;
                     } break;
-                    
-                    case Game::Hog: break;
                 }
             } else {
                 switch (game) {
                     case Game::PigDice: player2Score += playerTurn_1dice(); break;
                     case Game::BigPig: player2Score += playerTurn_big_dice(); break;
+                    case Game::Hog: player2Score += playerTurn_hog(); break;
                     
                     case Game::TwoDice: {
                         int score = playerTurn_2dice();
@@ -221,8 +226,6 @@ void gameLoop(bool computerPlayer, Game game) {
                         else
                             player2Score += score;
                     } break;
-                    
-                    case Game::Hog: break;
                 }
             }
             
@@ -337,6 +340,28 @@ int playerTurn_big_dice() {
         }
     } while ((dice1 != 1 && dice2 != 1) && !(choice == 'y' || choice == 'y'));
     
+    return score;
+}
+
+int playerTurn_hog() {
+    int dice_count = 1;
+    int score = 0;
+    
+    cout << "Enter number of dice to roll: ";
+    cin >> dice_count;
+    
+    for (int i = 0; i<dice_count; i++) {
+        int dice = randomDice();
+        
+        if (dice == 1) {
+            cout << "You rolled a 1-> No score." << endl;
+            return 0;
+        }
+            
+        score += dice_count;
+    }
+    
+    cout << "Score for this turn: " << score << endl;
     return score;
 }
 
@@ -478,6 +503,28 @@ int computerPlayerTurn_big_dice() {
     cout << "Computer holding at: " << score << endl;
     
     lastScores.push_back(score);
+    return score;
+}
+
+int computerPlayerTurn_hog() {
+    int dice_count = 1;
+    int score = 0;
+    
+    dice_count = rand() % 21;
+    cout << "Computer wants to roll " << dice_count << " dice." << endl;
+    
+    for (int i = 0; i<dice_count; i++) {
+        int dice = randomDice();
+        
+        if (dice == 1) {
+            cout << "computer rolled a 1-> No score." << endl;
+            return 0;
+        }
+            
+        score += dice_count;
+    }
+    
+    cout << "Computer's score for this turn: " << score << endl;
     return score;
 }
 

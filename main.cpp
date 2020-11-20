@@ -19,15 +19,14 @@ using namespace std;
 
 // Forward declaration of the game functions
 void gameLoop(bool computerPlayer);
-int playerTurn();
-int computerPlayerTurn();
 void displayMenu();
+
+int playerTurn_1dice();
+int computerPlayerTurn_1dice();
 
 int main() {
     srand(time(0));
     
-    //bool computerPlayer = displayMenu();
-    //gameLoop(computerPlayer);
     displayMenu();
     
     return 0;
@@ -79,20 +78,16 @@ void displayMenu() {
         }
             
         case 2:
-            //computerPlayer = false;
             gameLoop(false);
             break;
         
         case 3:
-            //computerPlayer = true;
             gameLoop(true);
             break;
             
         case 4:
             exit(0);
     }
-    
-    //return computerPlayer;
 }
 
 // The main game loop
@@ -109,7 +104,7 @@ void gameLoop(bool computerPlayer) {
     int player2Score = 0;
     
     while (player1Score < WIN_SCORE && player2Score < WIN_SCORE) {
-        cout << "\033[2J;\033[H";
+        cout << "\033[2J\033[H";
         cout << endl << "=================================" << endl;
         cout << "Player " << currentPlayer << "'s turn." << endl;
         
@@ -119,13 +114,13 @@ void gameLoop(bool computerPlayer) {
         cout << endl << endl;
         
         if (currentPlayer == 1) {
-            player1Score += playerTurn();
+            player1Score += playerTurn_1dice();
             currentPlayer = 2;
         } else {
             if (computerPlayer) {
-                player2Score += computerPlayerTurn();
+                player2Score += computerPlayerTurn_1dice();
             } else {
-                player2Score += playerTurn();
+                player2Score += playerTurn_1dice();
             }
             currentPlayer = 1;
         }
@@ -155,7 +150,7 @@ int randomDice(){
 //   Ask if they want to hold or roll again.
 //      If hold, return the score
 //      If roll again, start the loop over
-int playerTurn() {
+int playerTurn_1dice() {
     char choice = 0;
     int dice = 0;
     int score = 0;
@@ -218,7 +213,7 @@ bool shouldIHold(int current) {
     return true;
 }
 
-int computerPlayerTurn() {
+int computerPlayerTurn_1dice() {
     int dice = 0;
     int score = 0;
     char choice = 0;

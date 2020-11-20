@@ -15,24 +15,25 @@ Date: 12/01/20
 using namespace std;
 
 // Set this to set the maximum (winning) score
-#define WIN_SCORE 100
+#define WIN_SCORE 20
 
 // Forward declaration of the game functions
 void gameLoop(bool computerPlayer);
 int playerTurn();
 int computerPlayerTurn();
-bool displayMenu();
+void displayMenu();
 
 int main() {
     srand(time(0));
     
-    bool computerPlayer = displayMenu();
-    gameLoop(computerPlayer);
+    //bool computerPlayer = displayMenu();
+    //gameLoop(computerPlayer);
+    displayMenu();
     
     return 0;
 }
 
-bool displayMenu() {
+void displayMenu() {
     int menuOption;
     char backToMenu;
     bool computerPlayer = false;
@@ -68,26 +69,29 @@ bool displayMenu() {
             cout << "Would you like to return to the main menu? (y/n) ";
             cin >> backToMenu;
             if(backToMenu == 'y' ){
-                return displayMenu();   
+                displayMenu();   
             } else{
                 cout << "BYE!!!" << endl;
                 exit(0);
             }
+            break;
         }
             
         case 2:
-            computerPlayer = false;
+            //computerPlayer = false;
+            gameLoop(false);
             break;
         
         case 3:
-            computerPlayer = true;
+            //computerPlayer = true;
+            gameLoop(true);
             break;
             
         case 4:
             exit(0);
     }
     
-    return computerPlayer;
+    //return computerPlayer;
 }
 
 // The main game loop
@@ -104,6 +108,7 @@ void gameLoop(bool computerPlayer) {
     int player2Score = 0;
     
     while (player1Score < WIN_SCORE && player2Score < WIN_SCORE) {
+        cout << "\033[2J;\033[H";
         cout << endl << "=================================" << endl;
         cout << "Player " << currentPlayer << "'s turn." << endl;
         

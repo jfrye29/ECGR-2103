@@ -39,6 +39,7 @@ void displayMenu() {
     bool computerPlayer = false;
     
     //Game Menu
+    cout << "\033[2J;\033[H";
     cout << "**************************************************************************************" << endl;
     cout << "\033[01;44;41m" << "                       Welcome to Pig Dice!                       " << "\x1B[0m" << endl;
     cout << endl;

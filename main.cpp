@@ -1,10 +1,8 @@
 /*
-
 Class: ECGR 2103 - 003
 Project: Final Project - Pig Dice Game  
 Team #4: Justus Frye, Robert Griffin, Patrick Flynn
 Date: 12/01/20
-
 */
 
 #include <iostream>
@@ -44,8 +42,9 @@ void displayMenu() {
     cout << endl;
     cout << "                       Game Menu" <<endl;
     cout << "1 - Instructions" << endl;
-    cout << "2 - Pig Dice Game (2 Player)" << endl;
-    cout << "3 - Pig Dice Game (1 Player)" << endl;
+    cout << "2 - Pig Dice Game" << endl;
+    cout << "3 - Two-Dice Pig" << endl;
+    cout << "3 - Hog" << endl;
     cout << "4 - Exit" << endl;
     
     cout <<  "Choose Menu Option: ";
@@ -54,6 +53,9 @@ void displayMenu() {
     switch(menuOption) {
         case 1: {
             cout<<" Instructions:"<<endl;
+            cout << endl;
+            cout << endl;
+            cout << " Pig Dice Game" << endl;
             cout<<" The rules are simple: Two players race to reach 100 points. Each turn,"<<endl;
             cout<<" a player repeatedly rolls a die until either a 1 is rolled or the"<<endl;
             cout<<" player holds and scores the sum of the rolls (i.e. the turn total). At "<<endl;
@@ -65,6 +67,8 @@ void displayMenu() {
             cout<<""<<endl;
             cout<<" hold- The turn total is added to the player's score and it "<<endl;
             cout<<" becomes the opponent's turn."<<endl;
+            cout << endl;
+            cout << endl;
             cout << endl;
             cout << "Would you like to return to the main menu? (y/n) ";
             cin >> backToMenu;
@@ -241,4 +245,3 @@ int computerPlayerTurn_1dice() {
     lastScores.push_back(score);
     return score;
 }
-

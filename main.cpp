@@ -20,7 +20,7 @@ enum Game {
 };
 
 // Set this to set the maximum (winning) score
-#define WIN_SCORE 100
+#define WIN_SCORE 20
 
 // Forward declaration of the game functions
 void displayMenu();
@@ -53,11 +53,11 @@ void displayMenu() {
     bool computerPlayer = false;
     
     //Game Menu
-    cout << "\033[2J\033[H";
+    //cout << "\033[2J\033[H";
     cout << "**************************************************************************************" << endl;
-    cout << "\033[01;44;41m" << "                       Welcome to Pig Dice!                       " << "\x1B[0m" << endl;
+    cout << "         " <<"\033[01;44;41m" << "                       Welcome to Pig Dice!                       " << "\x1B[0m" << endl;
     cout << endl;
-    cout << "                       Game Menu" <<endl;
+    cout << " Game Menu" <<endl;
     cout << "1 - Instructions" << endl;
     cout << "2 - Pig Dice Game" << endl;
     cout << "3 - Two-Dice Pig" << endl;
@@ -71,7 +71,7 @@ void displayMenu() {
     cout << "\033[2J\033[H";
     switch(menuOption) {
         case 1: {
-            cout<<" Instructions:"<<endl;
+            cout<<" Basic Game Instructions:"<<endl;
             cout << endl;
             cout << endl;
             cout << " Pig Dice Game" << endl;
@@ -87,14 +87,11 @@ void displayMenu() {
             cout<<" hold- The turn total is added to the player's score and it "<<endl;
             cout<<" becomes the opponent's turn."<<endl;
             cout << endl;
-            cout << endl;
-            cout << endl;
             cout << "Would you like to return to the main menu? (y/n) ";
             cin >> backToMenu;
             if(backToMenu == 'y' ){
                 displayMenu();   
             } else{
-                cout << "BYE!!!" << endl;
                 exit(0);
             }
             break;
@@ -127,6 +124,7 @@ void displayMenu() {
 
 void displayPlayerMenu(Game game) {
     int choice = 0;
+    char backToMenu;
     
     cout << "1 - 1-Player" << endl;
     cout << "2 - 2-Player" << endl;
@@ -145,15 +143,64 @@ void displayPlayerMenu(Game game) {
             break;
             
         case 3: {
-            /*
+            
             if (game == Game::TwoDice) {
-            
+                cout << "Two-Dice Pig - This variation is the same as Pig, except:"<< endl;
+                cout << "\t\u2022 Two standard dice are rolled. If neither shows a 1, their" <<endl;
+                cout << "\t  sum is added to the turn total." <<endl;
+                cout << "\t\u2022 If a single 1 is rolled, the player scores nothing and the" <<endl;
+                cout << "\t  turn ends." <<endl;
+                cout << "\t\u2022 If two 1s are rolled, the player’s entire score is lost," <<endl;
+                cout << "\t  and the turn ends." <<endl;
+                cout << endl;
+                cout << "Would you like to return to the main menu? (y/n) ";
+                    cin >> backToMenu;
+                    if(backToMenu == 'y' ){
+                        cout << "\033[2J\033[H";
+                        displayMenu();   
+                    } else{
+                        exit(0);
+                    }
+                
             }
             
-            switch (game) {
-                case Game::TwoDice:
+            else if (game == Game::BigPig) {
+                cout << "Big Pig - This variation is the same as Two-Dice Pig, except:"<< endl;
+                cout << "\t\u2022 If two 1s are rolled, the player adds 25 to the turn total." <<endl;
+                cout << "\t\u2022 If other doubles are rolled, the player adds twice the " <<endl;
+                cout << "\t  value of the dice to the turn total." <<endl;
+                cout << endl;
+                cout << "Would you like to return to the main menu? (y/n) ";
+                    cin >> backToMenu;
+                    if(backToMenu == 'y' ){
+                        cout << "\033[2J\033[H";
+                        displayMenu();   
+                    } else{
+                        exit(0);
+                    }
+                
             }
-            */
+            
+            else if (game == Game::Hog) {
+                cout << "Hog - Hog is played as Pig where, at the beginning of a turn, the"<< endl;
+                cout << "player decides how many dice to roll and rolls them all at"<< endl;
+                cout << "once. If any 1's (""hogs"") are rolled, there is no score for the" <<endl;
+                cout << "turn. Otherwise, the sum of the dice are scored. In either " <<endl;
+                cout << "case, it becomes the next player's turn." <<endl;
+                cout << endl;
+                cout << "Would you like to return to the main menu? (y/n) ";
+                    cin >> backToMenu;
+                    if(backToMenu == 'y' ){
+                        cout << "\033[2J\033[H";
+                        displayMenu();   
+                    } else{
+                        exit(0);
+                    }
+                
+            }
+            
+            
+            
         } break;
     }
     // game loop
@@ -235,9 +282,11 @@ void gameLoop(bool computerPlayer, Game game) {
     
     cout << endl;
     if (player1Score >= WIN_SCORE) {
-        cout << "Player 1 won!!!!" << endl;
+        cout << "\033[01;44;42m" << "Player 1 Won!!!!" << "\x1B[0m" << endl;
+        displayMenu();
     } else {
-        cout << "Player 2 won!!!!" << endl;
+        cout << "\033[01;44;42m" << "Player 2 Won!!!!" << "\x1B[0m" << endl;
+        displayMenu();
     }
 }
 

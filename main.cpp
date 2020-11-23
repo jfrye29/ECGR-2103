@@ -215,6 +215,7 @@ void displayPlayerMenu(Game game) {
 //   Check the scores- if one is >= 100 then we output the winner
 //   If there is no winner, switch players and start again
 void gameLoop(bool computerPlayer, Game game) {
+    char backToMenu;
     int currentPlayer = 1;
     int player1Score = 0;
     int player2Score = 0;
@@ -281,12 +282,31 @@ void gameLoop(bool computerPlayer, Game game) {
     }
     
     cout << endl;
+    
     if (player1Score >= WIN_SCORE) {
         cout << "\033[01;44;42m" << "Player 1 Won!!!!" << "\x1B[0m" << endl;
-        displayMenu();
+        cout << endl;
+        cout << "Would you like to return to the main menu? (y/n) ";
+        cin >> backToMenu;
+        if(backToMenu == 'y' ){
+            cout << "\033[2J\033[H";
+            displayMenu();   
+        } 
+        else{
+            exit(0);
+        }
     } else {
         cout << "\033[01;44;42m" << "Player 2 Won!!!!" << "\x1B[0m" << endl;
-        displayMenu();
+        cout << endl;
+        cout << "Would you like to return to the main menu? (y/n) ";
+        cin >> backToMenu;
+        if(backToMenu == 'y' ){
+            cout << "\033[2J\033[H";
+            displayMenu();   
+        } 
+        else{
+            exit(0);
+        }
     }
 }
 
@@ -576,4 +596,3 @@ int computerPlayerTurn_hog() {
     cout << "Computer's score for this turn: " << score << endl;
     return score;
 }
-

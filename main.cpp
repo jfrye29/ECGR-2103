@@ -7,9 +7,10 @@ Date: 12/01/20
 
 #include <iostream>
 #include <cstdlib>
-#include <ctime>  
+#include <ctime>
 #include <cmath>
 #include <vector>
+#include <unistd.h>
 using namespace std;
 
 enum Game {
@@ -58,66 +59,37 @@ void displayMenu() {
     cout << "         " <<"\033[01;44;41m" << "                       Welcome to Pig Dice!                       " << "\x1B[0m" << endl;
     cout << endl;
     cout << " Game Menu" <<endl;
-    cout << "1 - Instructions" << endl;
-    cout << "2 - Pig Dice Game" << endl;
-    cout << "3 - Two-Dice Pig" << endl;
-    cout << "4 - Big Pig" << endl;
-    cout << "5 - Hog" << endl;
-    cout << "6 - Exit" << endl;
+    cout << "1 - Pig Dice Game" << endl;
+    cout << "2 - Two-Dice Pig" << endl;
+    cout << "3 - Big Pig" << endl;
+    cout << "4 - Hog" << endl;
+    cout << "5 - Exit" << endl;
     
     cout <<  "Choose Menu Option: ";
     cin >> menuOption;
-    cout << endl; 
-    cout << "\033[2J\033[H";
+    cout << endl;
     switch(menuOption) {
-        case 1: {
-            cout<<" Basic Game Instructions:"<<endl;
-            cout << endl;
-            cout << endl;
-            cout << " Pig Dice Game" << endl;
-            cout<<" The rules are simple: Two players race to reach 100 points. Each turn,"<<endl;
-            cout<<" a player repeatedly rolls a die until either a 1 is rolled or the"<<endl;
-            cout<<" player holds and scores the sum of the rolls (i.e. the turn total). At "<<endl;
-            cout<<" any time during a player's turn, the player is faced with two decisions:"<<endl;
-            cout<<""<<endl;
-            cout<<" roll- If the player rolls a "<<endl;
-            cout<<"\t1: the player scores nothing and it becomes the opponent's turn."<<endl;
-            cout<<"\t2 - 6: the number is added to the player's turn total and the player's turn continues."<<endl;
-            cout<<""<<endl;
-            cout<<" hold- The turn total is added to the player's score and it "<<endl;
-            cout<<" becomes the opponent's turn."<<endl;
-            cout << endl;
-            cout << "Would you like to return to the main menu? (y/n) ";
-            cin >> backToMenu;
-            if(backToMenu == 'y' ){
-                displayMenu();   
-            } else{
-                exit(0);
-            }
-            break;
-        }
-            
         // pig dice
-        case 2:
+        case 1:
             displayPlayerMenu(Game::PigDice);
             break;
-        
+
         // 2-dice
-        case 3:
+        case 2:
             displayPlayerMenu(Game::TwoDice);
             break;
-            
+
         //big pig
-        case 4:
+        case 3:
             displayPlayerMenu(Game::BigPig);
             break;
-        
+
         // hog
-        case 5:
+        case 4:
             displayPlayerMenu(Game::Hog);
             break;
-            
-        case 6:
+
+        case 5:
             exit(0);
     }
 }
@@ -125,7 +97,8 @@ void displayMenu() {
 void displayPlayerMenu(Game game) {
     int choice = 0;
     char backToMenu;
-    
+
+    cout << "\033[2J\033[H";
     cout << "1 - 1-Player" << endl;
     cout << "2 - 2-Player" << endl;
     cout << "3 - View Instructions" << endl;
@@ -143,8 +116,33 @@ void displayPlayerMenu(Game game) {
             break;
             
         case 3: {
+            if (game == Game::PigDice) {
+                cout<<" Basic Game Instructions:"<<endl;
+                cout << endl;
+                cout << endl;
+                cout << " Pig Dice Game" << endl;
+                cout<<" The rules are simple: Two players race to reach 100 points. Each turn,"<<endl;
+                cout<<" a player repeatedly rolls a die until either a 1 is rolled or the"<<endl;
+                cout<<" player holds and scores the sum of the rolls (i.e. the turn total). At "<<endl;
+                cout<<" any time during a player's turn, the player is faced with two decisions:"<<endl;
+                cout<<""<<endl;
+                cout<<" roll- If the player rolls a "<<endl;
+                cout<<"\t1: the player scores nothing and it becomes the opponent's turn."<<endl;
+                cout<<"\t2 - 6: the number is added to the player's turn total and the player's turn continues."<<endl;
+                cout<<""<<endl;
+                cout<<" hold- The turn total is added to the player's score and it "<<endl;
+                cout<<" becomes the opponent's turn."<<endl;
+                cout << endl;
+                cout << "Would you like to return to the main menu? (y/n) ";
+                cin >> backToMenu;
+                if(backToMenu == 'y' ){
+                    displayMenu();   
+                } else{
+                    exit(0);
+                }
+            }
             
-            if (game == Game::TwoDice) {
+            else if (game == Game::TwoDice) {
                 cout << "Two-Dice Pig - This variation is the same as Pig, except:"<< endl;
                 cout << "\t\u2022 Two standard dice are rolled. If neither shows a 1, their" <<endl;
                 cout << "\t  sum is added to the turn total." <<endl;

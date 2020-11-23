@@ -10,7 +10,6 @@ Date: 12/01/20
 #include <ctime>
 #include <cmath>
 #include <vector>
-#include <unistd.h>
 using namespace std;
 
 enum Game {
@@ -54,7 +53,7 @@ void displayMenu() {
     bool computerPlayer = false;
     
     //Game Menu
-    //cout << "\033[2J\033[H";
+    cout << "\033[2J\033[H";
     cout << "**************************************************************************************" << endl;
     cout << "         " <<"\033[01;44;41m" << "                       Welcome to Pig Dice!                       " << "\x1B[0m" << endl;
     cout << endl;

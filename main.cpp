@@ -2,7 +2,7 @@
 Class: ECGR 2103 - 003
 Project: Final Project - Pig Dice Game  
 Team #4: Justus Frye, Robert Griffin, Patrick Flynn
-Date: 12/01/20
+Date: 12/08/20
 */
 
 #include <iostream>
@@ -10,6 +10,7 @@ Date: 12/01/20
 #include <ctime>
 #include <cmath>
 #include <vector>
+#include <unistd.h>
 using namespace std;
 
 enum Game {
@@ -421,7 +422,7 @@ int playerTurn_big_dice(int originalScore) {
             << "\x1B[37m"   // Set white
             << dice2 << endl;
         
-        if (dice1 == 1 || dice2 == 1) {
+        if ((dice1 == 1 || dice2 == 1) && !(dice1 == 1 && dice2 == 1)) {
             //score = originalScore;
             
             cout << "Score: 0. Your turn is over." << endl;
@@ -465,7 +466,7 @@ int playerTurn_hog(int originalScore) {
         score += dice;
     }
     
-    cout << "Score for this turn: " << score << endl;
+    cout << "New total score: " << score << endl;
     return score;
 }
 
@@ -524,6 +525,7 @@ int computerPlayerTurn_1dice(int originalScore) {
             lastScores.push_back(score);
             
             cout << "Score: 0. Computer's turn is over." << endl;
+            sleep(2);
             return originalScore;
         } else {
             score += dice;
@@ -535,6 +537,7 @@ int computerPlayerTurn_1dice(int originalScore) {
     } while (dice != 1 && !(choice == 'y' || choice == 'y'));
     
     cout << "Computer holding at: " << score << endl;
+    sleep(2);
     
     lastScores.push_back(score);
     return score;
@@ -563,11 +566,13 @@ int computerPlayerTurn_2dice(int originalScore) {
             lastScores.push_back(score);
             
             cout << "Total score: 0. You lost everything." << endl;
+            sleep(2);
             return -1;
         } else if (dice1 == 1 || dice2 == 1) {
             lastScores.push_back(score);
             
             cout << "Score: 0. Computer's turn is over." << endl;
+            sleep(2);
             return originalScore;
         } else {
             score += dice1 + dice2;
@@ -579,6 +584,7 @@ int computerPlayerTurn_2dice(int originalScore) {
     } while ((dice1 != 1 && dice2 != 1) && !(choice == 'y' || choice == 'y'));
     
     cout << "Computer holding at: " << score << endl;
+    sleep(2);
     
     lastScores.push_back(score);
     return score;
@@ -603,16 +609,22 @@ int computerPlayerTurn_big_dice(int originalScore) {
             << "\x1B[37m"   // Set white
             << dice2 << endl;
         
-        if (dice1 == 1 || dice2 == 1) {
+        if (dice1 == 1 && dice2 == 1) {
+            score += 25;
+            
+            if (!shouldIHold(score)) {
+                choice = 'y';
+            }
+        } else if (dice1 == 1 || dice2 == 1) {
             lastScores.push_back(score);
             
             cout << "Score: 0. Computer's turn is over." << endl;
+            sleep(2);
+            
             return originalScore;
         } else {
-            if (dice1 == 1 && dice2 == 1) {
-                score += 25;
-            } else if (dice1 == dice2) {
-                score += score * 2;
+            if (dice1 == dice2) {
+                score += (dice1 * 2);
             } else {
                 score += dice1 + dice2;
             }
@@ -624,6 +636,7 @@ int computerPlayerTurn_big_dice(int originalScore) {
     } while ((dice1 != 1 && dice2 != 1) && !(choice == 'y' || choice == 'y'));
     
     cout << "Computer holding at: " << score << endl;
+    sleep(2);
     
     lastScores.push_back(score);
     return score;
@@ -633,7 +646,7 @@ int computerPlayerTurn_hog(int originalScore) {
     int dice_count = 1;
     int score = 0;
     
-    dice_count = rand() % 21;
+    dice_count = rand() % 11;
     cout << "Computer wants to roll " << dice_count << " dice." << endl;
     
     for (int i = 0; i<dice_count; i++) {
@@ -641,6 +654,7 @@ int computerPlayerTurn_hog(int originalScore) {
         
         if (dice == 1) {
             cout << "computer rolled a 1-> No score." << endl;
+            sleep(2);
             return originalScore;
         }
             
@@ -648,5 +662,7 @@ int computerPlayerTurn_hog(int originalScore) {
     }
     
     cout << "Computer's score for this turn: " << score << endl;
+    sleep(2);
+    
     return score;
 }

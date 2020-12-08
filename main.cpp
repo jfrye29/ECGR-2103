@@ -364,7 +364,7 @@ int playerTurn_2dice(int originalScore) {
     char choice = 0;
     int dice1 = 0;
     int dice2 = 0;
-    int score = 0;
+    int score = originalScore;
     
     do {
         dice1 = randomDice();
@@ -406,7 +406,7 @@ int playerTurn_big_dice(int originalScore) {
     char choice = 0;
     int dice1 = 0;
     int dice2 = 0;
-    int score = 0;
+    int score = originalScore;
     
     do {
         dice1 = randomDice();
@@ -422,9 +422,10 @@ int playerTurn_big_dice(int originalScore) {
             << dice2 << endl;
         
         if (dice1 == 1 || dice2 == 1) {
-            score = originalScore;
+            //score = originalScore;
             
             cout << "Score: 0. Your turn is over." << endl;
+            return originalScore;
         } else {
             if (dice1 == 1 && dice2 == 1) {
                 score += 25;
@@ -447,8 +448,8 @@ int playerTurn_big_dice(int originalScore) {
 }
 
 int playerTurn_hog(int originalScore) {
-    int dice_count = 1;
-    int score = 0;
+    int dice_count = 0;
+    int score = originalScore;
     
     cout << "Enter number of dice to roll: ";
     cin >> dice_count;
@@ -458,10 +459,10 @@ int playerTurn_hog(int originalScore) {
         
         if (dice == 1) {
             cout << "You rolled a 1-> No score." << endl;
-            return 0;
+            return originalScore;
         }
             
-        score += dice_count;
+        score += dice;
     }
     
     cout << "Score for this turn: " << score << endl;
@@ -640,7 +641,7 @@ int computerPlayerTurn_hog(int originalScore) {
         
         if (dice == 1) {
             cout << "computer rolled a 1-> No score." << endl;
-            return 0;
+            return originalScore;
         }
             
         score += dice_count;

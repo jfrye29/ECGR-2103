@@ -384,7 +384,7 @@ int playerTurn_2dice(int originalScore) {
             
             cout << "Total score: 0. You lost everything." << endl;
         } else if (dice1 == 1 || dice2 == 1) {
-            score = 0;
+            score = originalScore;
             
             cout << "Score: 0. Your turn is over." << endl;
         } else {
@@ -422,7 +422,7 @@ int playerTurn_big_dice(int originalScore) {
             << dice2 << endl;
         
         if (dice1 == 1 || dice2 == 1) {
-            score = 0;
+            score = originalScore;
             
             cout << "Score: 0. Your turn is over." << endl;
         } else {
@@ -567,7 +567,7 @@ int computerPlayerTurn_2dice(int originalScore) {
             lastScores.push_back(score);
             
             cout << "Score: 0. Computer's turn is over." << endl;
-            return 0;
+            return originalScore;
         } else {
             score += dice1 + dice2;
             
@@ -606,7 +606,7 @@ int computerPlayerTurn_big_dice(int originalScore) {
             lastScores.push_back(score);
             
             cout << "Score: 0. Computer's turn is over." << endl;
-            return 0;
+            return originalScore;
         } else {
             if (dice1 == 1 && dice2 == 1) {
                 score += 25;

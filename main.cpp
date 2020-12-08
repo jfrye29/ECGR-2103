@@ -523,7 +523,7 @@ int computerPlayerTurn_1dice(int originalScore) {
             lastScores.push_back(score);
             
             cout << "Score: 0. Computer's turn is over." << endl;
-            return 0;
+            return originalScore;
         } else {
             score += dice;
             
